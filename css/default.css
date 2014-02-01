@@ -1,0 +1,34 @@
+/* Standard CSS Resets */
+* { -moz-box-sizing: border-box; box-sizing: border-box; margin: 0; padding: 0; }
+a img { border: 0 none; }
+
+/* Basic Page CSS */
+body {
+	font-family: 'Droid Sans', 'Helvetica Neue', 'Trebuchet MS', Helvetica, sans-serif;
+	font-size: 12pt;
+	min-height: 100vh;
+	display: -webkit-flex; display: -ms-flex; display: flex;
+	-webkit-flex-flow: row wrap; -ms-flex-flow: row wrap; flex-flow: row wrap;
+	-webkit-justify-content: space-between; -ms-justify-content: space-between; justify-content: space-between;
+	-webkit-align-content: stretch; -ms-align-content: stretch; align-content: stretch;
+	-webkit-align-items: flex-start; -ms-align-items: flex-start; align-items: flex-start;
+}
+body > header {
+	-webkit-align-self: flex-start; -ms-align-self: flex-start; align-self: flex-start;
+	-webkit-order: 0; -ms-order: 0; order: 0;
+	width: 100%; padding: 5px 10px;
+	border-bottom: 1px solid black;
+}
+body > main {
+	-webkit-align-self: stretch; -ms-align-self: stretch; align-self: stretch;
+	border: 1px solid black; margin: 0 auto;
+}
+body > footer {
+	-webkit-align-self: flex-end; -ms-align-self: flex-end; align-self: flex-end;
+	-webkit-order: 100; -ms-order: 100; order: 100;
+	width: 100%;
+	border-top: 1px solid black;
+}
+body > footer > small {
+	white-space: nowrap; float: right; text-align: center;
+}
