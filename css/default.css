@@ -1,6 +1,20 @@
 /* Standard CSS Resets */
 * { -moz-box-sizing: border-box; box-sizing: border-box; margin: 0; padding: 0; }
+ul { padding-left: 1.5em; }
 a img { border: 0 none; }
+a:link, a:visited { color: #0000ff; text-decoration: none; }
+a:link:hover, a:link:active, a:visited:hover, a:visited:active { color: #0000ff; text-decoration: underline; }
+a[href^="http"]:link, a[href^="http"]:visited {
+	text-decoration: underline;
+	-webkit-text-decoration-line: underline; -moz-text-decoration-line: underline; text-decoration-line: underline;
+	-webkit-text-decoration-style: dashed; -moz-text-decoration-style: dashed; text-decoration-style: dashed;
+	color: #88aaff;
+}
+a[href^="http"]:link::after, a[href^="http"]:visited::after {
+	display: inline; content: '\279a';
+}
+p { text-indent: 2em; margin-bottom: 1em; }
+q { quotes: '\201c' '\201d' '\2019' '\2020'; }
 
 /* Basic Page CSS */
 body {
@@ -12,23 +26,90 @@ body {
 	-webkit-justify-content: space-between; -ms-justify-content: space-between; justify-content: space-between;
 	-webkit-align-content: stretch; -ms-align-content: stretch; align-content: stretch;
 	-webkit-align-items: flex-start; -ms-align-items: flex-start; align-items: flex-start;
+	background-color: #f0f0f0;
+}
+body > * {
+	background-color: #ffffff;
 }
 body > header {
-	-webkit-align-self: flex-start; -ms-align-self: flex-start; align-self: flex-start;
-	-webkit-order: 0; -ms-order: 0; order: 0;
 	width: 100%; padding: 5px 10px;
+	display: -webkit-flex; display: -ms-flex; display: flex;
+	-webkit-flex-flow: row nowrap; -ms-flex-flow: row nowrap; flex-flow: row nowrap;
+	-webkit-justify-content: space-between; -ms-justify-content: space-between; justify-content: space-between;
+	-webkit-align-items: center; -ms-align-items: center; align-items: center;
 	border-bottom: 1px solid black;
+	text-align: center;
+	background-color: #fff0ff;
 }
 body > main {
 	-webkit-align-self: stretch; -ms-align-self: stretch; align-self: stretch;
-	border: 1px solid black; margin: 0 auto;
+	min-height: 85vh;
+	min-height: max(min(85vh, 500px), 200px);
+	max-width: 500px; margin: 0 auto;
+	border-right: 1px solid black;
+	border-left: 1px solid black;
+	padding: 2px 5px;
+	overflow-x: auto;
+}
+body > nav {
+	border-right: 1px solid black; border-bottom: 1px solid black;
+	float: left; font-size: smaller;
+	background-color: #f0ffff;
+}
+body > aside {
+	border-left: 1px solid black; border-bottom: 1px solid black;
+	background-color: #fffff0;
+	float: right;
 }
 body > footer {
 	-webkit-align-self: flex-end; -ms-align-self: flex-end; align-self: flex-end;
-	-webkit-order: 100; -ms-order: 100; order: 100;
 	width: 100%;
 	border-top: 1px solid black;
+	clear: both;
 }
 body > footer > small {
 	white-space: nowrap; float: right; text-align: center;
+}
+
+/* Page Header */
+body > header h1 {
+	float: left; color: black;
+}
+body > header > h2 {
+}
+body > header > h3 {
+}
+body > header::after {
+	display: block; content: ''; float: none; clear: both;
+}
+
+/* Site Navigation */
+nav h1 {
+	padding: 2px 5px;
+}
+nav a {
+	display: block;
+}
+nav > a {
+	text-align: center;
+}
+nav {
+	padding: 2px 5px;
+}
+nav h2 {
+	font-size: 1em;
+}
+nav > ul {
+}
+nav > ul > li {
+}
+
+/* Main Content */
+body > main::first-line {
+	font-weight: bold; font-size: larger; font-variant: small-caps;
+}
+body > main > a {
+	display: block; text-align: center; font-size: smaller;
+	max-width: -webkit-fit-content; max-width: -moz-fit-content; max-width: fit-content;
+	margin: 0 auto;
 }

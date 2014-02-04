@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>CSS Guru &mdash; {{ page.title }}</title>
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1" />
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<link rel="stylesheet" href="/css/{{ page.style }}.css" />
+</head>
+<body>
+<header>
+	<a href="/"><h1>CSS Guru</h1></a>
+	<h3>{{ page.title }}</h3>
+</header>
+<nav>
+	<h1>CSS Guru Navigation</h1>
+	<h2>Separate of Presentation and Content</h2>
+	<ul>
+		<li><a href="minimalist.html">Minimalist HTML5</a></li>
+	</ul>
+	<h2>Build for All Media</h2>
+	<ul>
+		<li><a>Responsive Design</a></li>
+		<li><a>In Print</a></li>
+		<li><a>Viewport</a></li>
+		<li><a>Font Sizes</a></li>
+	</ul>
+	<h2>Upgrade</h2>
+	<ul>
+		<li><a href="flexbox.html">Flexbox Design</a></li>
+		<li><a href="fit-content.html">Fit Content</a></li>
+	</ul>
+</nav>
+<main>
+{{ content }}
+</main>
+<footer>
+	<small>&copy;2014 Samuel B Grundman<br/>
+		<a href="http://creativecommons.org/licenses/by/4.0/"><img src="http://i.creativecommons.org/l/by/3.0/88x31.png" alt="CC BY 4.0"/></a>
+	</small>
+</footer>
+</body>
+</html>
