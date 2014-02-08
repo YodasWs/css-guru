@@ -1,2 +1,4 @@
 ---
-baseurl: /css-guru
+include: ['index.html', 'css']
+encoding: 'UTF-8'
+future: false

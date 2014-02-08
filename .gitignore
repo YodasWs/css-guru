@@ -2,4 +2,5 @@
 .htaccess
 *.conf
 *.swp
+_site
 *~
