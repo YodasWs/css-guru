@@ -1,5 +1,6 @@
 #.gitignore
 .htaccess
+_drafts
 *.conf
 *.swp
 _site

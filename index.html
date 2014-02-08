@@ -7,8 +7,11 @@ title: Essentials for Modern Web Development
 	<p>This site is to showcase the full beauty and power of CSS3.</p>
 </section>
 <h1>Separate Presentation and Content</h1>
-<h2>Minimalist HTML5</h2>
-<a href="minimalist.html">Read More&hellip;</a>
+{% for post in site.posts %}
+<h2>{{ post.title }}</h2>
+<p>{{ post.excerpt }}</p>
+<a href="{{ post.url }}">Read More&hellip;</a>
+{% endfor %}
 <h1>Build for All Media</h1>
 <ul>
 	<li>Be mindful of all media types, including screens 2&#x2033;-60&#x2033; and paper printouts<ul>

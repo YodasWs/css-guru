@@ -1,4 +1,6 @@
 ---
 include: ['index.html', 'css']
+exclude: ['README.md', 'CNAME', 'css3design.guru.conf']
 encoding: 'UTF-8'
 future: false
+excerpt_separator: "\n"
