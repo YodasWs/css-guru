@@ -1,11 +1,34 @@
 ---
 layout: main
-title: Essentials for Modern Web Development
+title: Modern Web Development
 ---
+<p>This site is to showcase the full beauty and power of CSS3.</p>
 <section>
+	<h1>Modern Philosophy</h1>
 	<p>CSS3 is a powerful styling language, utilize its full power to perfect your design!</p>
-	<p>This site is to showcase the full beauty and power of CSS3.</p>
+	<ul>
+		<li>Use minimalist, semantic HTML5 with no superfluous, unnecessary markup<ul>
+			<li>E.g., don&rsquo;t nest layers of divs when you may need only one article and one section</li>
+		</ul></li>
+		<li>CSS3 is a powerful styling language, utilize its full power to perfect your design<ul>
+			<li>E.g., use pseudo-elements instead of arbitrary useless HTML</li>
+			<li>E.g., CSS3 gradients are smaller, easier to edit, and load faster than images</li>
+		</ul></li>
+		<li>Be mindful of all media types, including screens 2&Prime;&ndash;60&Prime; and paper printouts<ul>
+			<li>E.g., avoid using pixel units, let layout elements flow naturally, and test for mobile</li>
+		</ul></li>
+		<li>Utilize the strengths of each browser and work with their weaknesses<ul>
+			<li>Corollary: never tell a user to change browsers, make the site work for them</li>
+			<li>E.g., use flexbox design in Chrome now, but fallback with floats and clears for IE8</li>
+		</ul></li>
+		<li>Clients love to see animation, and jQuery makes it just as easy as show/hide</li>
+	</ul>
 </section>
+{% comment %}
+<section>
+	<h1>Go Mobile</h1>
+</section>
+
 <h1>Separate Presentation and Content</h1>
 {% for post in site.posts %}
 <h2>{{ post.title }}</h2>
@@ -13,16 +36,6 @@ title: Essentials for Modern Web Development
 <a href="{{ post.url }}">Read More&hellip;</a>
 {% endfor %}
 <h1>Build for All Media</h1>
-<ul>
-	<li>Be mindful of all media types, including screens 2&#x2033;-60&#x2033; and paper printouts<ul>
-		<li>E.g., avoid using pixel units, let layout elements flow naturally, and test for mobile</li>
-	</ul></li>
-	<li>Utilize the strengths of each browser and work with their weaknesses<ul>
-		<li>Corollary: never tell a user to change browsers, make the site work for them</li>
-		<li>E.g., use flexbox design in Chrome now, but fallback with floats and clears for IE8</li>
-	</ul></li>
-	<li>Clients love to see animation, and jQuery makes it just as easy as show/hide</li>
-</ul>
 <article>
 	<h1>In Print</h1>
 </article>
@@ -34,3 +47,4 @@ title: Essentials for Modern Web Development
 <article>
 	<h1>Flexbox Design</h1>
 </article>
+{% endcomment %}

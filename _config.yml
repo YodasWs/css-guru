@@ -1,6 +1,12 @@
 ---
 include: ['index.html', 'css']
-exclude: ['README.md', 'CNAME', 'css3design.guru.conf']
+exclude: ['README.md', 'CNAME', 'css3design.guru.conf','css3design.guru.rss']
 encoding: 'UTF-8'
 future: false
 excerpt_separator: "\n"
+title: 'CSS3 Design Guru'
+url: 'http://css3design.guru'
+description: ''
+copyright: '&copy;2014 Samuel B Grundman'
+email: samuel@yodas.ws
+devName: 'Samuel B Grundman'

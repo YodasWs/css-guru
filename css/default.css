@@ -10,7 +10,8 @@ a[href^="http"]:link, a[href^="http"]:visited {
 	-webkit-text-decoration-style: dashed; -moz-text-decoration-style: dashed; text-decoration-style: dashed;
 	color: #88aaff;
 }
-a[href^="http"]:link::after, a[href^="http"]:visited::after {
+main a[href^="http"]:link::after, main a[href^="http"]:visited::after,
+nav a[href^="http"]:link::after,  nav a[href^="http"]:visited::after {
 	display: inline; content: '\279a';
 }
 p { text-indent: 2em; margin-bottom: 1em; }
@@ -39,13 +40,13 @@ body > header {
 	-webkit-align-items: center; -ms-align-items: center; align-items: center;
 	border-bottom: 1px solid black;
 	text-align: center;
-	background-color: #fff0ff;
+	background-color: #90b3f2;
 }
 body > main {
 	-webkit-align-self: stretch; -ms-align-self: stretch; align-self: stretch;
 	min-height: 85vh;
-	min-height: max(min(85vh, 500px), 200px);
-	max-width: 500px; margin: 0 auto;
+	max-width: 70vw;
+	margin: 0 auto;
 	border-right: 1px solid black;
 	border-left: 1px solid black;
 	padding: 2px 5px;
@@ -54,11 +55,9 @@ body > main {
 body > nav {
 	border-right: 1px solid black; border-bottom: 1px solid black;
 	float: left; font-size: smaller;
-	background-color: #f0ffff;
 }
 body > aside {
 	border-left: 1px solid black; border-bottom: 1px solid black;
-	background-color: #fffff0;
 	float: right;
 }
 body > footer {
@@ -107,6 +106,9 @@ nav > ul > li {
 /* Main Content */
 body > main::first-line {
 	font-weight: bold; font-size: larger; font-variant: small-caps;
+}
+body > main > section:not(:first-child) {
+	margin-top: 1em;
 }
 body > main > a {
 	display: block; text-align: center; font-size: smaller;
