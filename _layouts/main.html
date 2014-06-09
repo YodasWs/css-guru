@@ -1,11 +1,10 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<title>{{ site.title }} &mdash; {{ page.title }}</title>
+<title>{{ page.title }} &mdash; {{ site.title }}</title>
 <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1" />
 <meta name="msvalidate.01" content="0D16ACC1792BF537CCCE7A7F6499330F" />
-<meta http-equiv="Content-type" content="text/html; charset=utf8" />
-<meta charset="utf8" />
+<meta charset="utf-8" />
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 {% comment %}
 <link rel="alternate" href="/feed.xml" type="application/xml+rss" />
@@ -17,9 +16,12 @@
 	<a href="/"><h1>{{site.title}}</h1></a>
 	<h3>{{ page.title }}</h3>
 </header>
-{% comment %}
 <nav>
 	<h1>CSS Guru Navigation</h1>
+	{% if page.url != '/index.html' %}
+	<a href="/">Home</a>
+	{% endif %}
+{% comment %}
 	{% for cat in site.categories %}
 		<h2>{{ forloop.index }}</h2>
 		<ul>
@@ -40,8 +42,9 @@
 		<li>Flexbox Design</li>
 		<li>Fit Content</li>
 	</ul>
-</nav>
 {% endcomment %}
+	<a href="/about">About Me</a>
+</nav>
 <main>
 {{ content }}
 </main>
@@ -49,9 +52,7 @@
 	{% unless page.url contains '/about' %}
 	<a href="/about">About Me</a>
 	{% endunless %}
-	<small>{{ site.copyright }}<br/>
-		<a href="http://creativecommons.org/licenses/by/4.0/"><img src="http://i.creativecommons.org/l/by/3.0/88x31.png" alt="CC BY 4.0"/></a>
-	</small>
+	<small>{{ site.copyright }}</small>
 </footer>
 </body>
 </html>
