@@ -1,6 +1,6 @@
 ---
 include: ['index.html', 'css']
-exclude: ['README.md', 'CNAME', 'css3design.guru.conf','css3design.guru.rss']
+exclude: ['README.md', 'CNAME', 'css3design.guru.conf','css3design.guru.rss', 'Thumbs.db']
 encoding: 'UTF-8'
 future: false
 excerpt_separator: "\n"
