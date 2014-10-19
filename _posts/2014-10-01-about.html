@@ -1,24 +1,20 @@
 ---
-layout: main
+layout: post
 title: About Me
-permalink: about/index.html
+permalink: about
 ---
 <style scoped>
-section {
+article#{{page.permalink}} section {
 	line-height: 1.5em;
 }
-section > h1 {
-	font-size: 1.5rem;
-	text-align: center;
-}
-section > h2 {
+article#{{page.permalink}} section > h2 {
 	font-size: 1.2rem;
 	margin-top: 1em;
 }
-section > h2 + * {
+article#{{page.permalink}} section > h2 + * {
 	margin-top: .5em;
 }
-dl > dd {
+article#{{page.permalink}} section dl > dd {
 	text-indent: -2em;
 	margin-left: 4em;
 	font-size: .9em;
@@ -27,7 +23,7 @@ dl > dd {
 <section>
 	<h1>Sam Grundman</h1>
 	<p>I am a freelance web developer. With years of experience in web development, I provide excellent PSD to HTML/CSS service.</p>
-	<p>My rates are competitive, so <a href="mailto:%22Sam Grundman%22 <css3.guru@yodas.ws>">Contact me</a> now!</p>
+	<p>My rates are competitive, so <a href="mailto:{{site.email_url}}">Contact me</a> now!</p>
 	<h2>Primary Skills</h2>
 	<ul>
 		<li>HTML5, CSS3, JavaScript, XML</li>

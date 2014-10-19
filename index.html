@@ -1,6 +1,5 @@
 ---
 layout: main
-title: Modern Web Development
 ---
 <p>This site is to showcase the full beauty and power of CSS3.</p>
 <section>
@@ -15,7 +14,7 @@ title: Modern Web Development
 			<li>E.g., CSS3 gradients are smaller, easier to edit, and load faster than images</li>
 		</ul></li>
 		<li>Be mindful of all media types, including screens 2&Prime;&ndash;60&Prime; and paper printouts<ul>
-			<li>E.g., avoid using pixel units, let layout elements flow naturally, and test for mobile</li>
+			<li>E.g., avoid using hard-coded units, let layout elements flow naturally, and test for mobile</li>
 		</ul></li>
 		<li>Utilize the strengths of each browser and work with their weaknesses<ul>
 			<li>Corollary: never tell a user to change browsers, make the site work for them</li>
@@ -24,17 +23,12 @@ title: Modern Web Development
 		<li>Clients love to see animation, and jQuery makes it just as easy as show/hide</li>
 	</ul>
 </section>
+
 {% comment %}
 <section>
 	<h1>Go Mobile</h1>
 </section>
-
 <h1>Separate Presentation and Content</h1>
-{% for post in site.posts %}
-<h2>{{ post.title }}</h2>
-<p>{{ post.excerpt }}</p>
-<a href="{{ post.url }}">Read More&hellip;</a>
-{% endfor %}
 <h1>Build for All Media</h1>
 <article>
 	<h1>In Print</h1>

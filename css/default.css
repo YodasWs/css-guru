@@ -16,7 +16,7 @@ a[href^="http"]:link::after,  a[href^="http"]:visited::after {
 }
 p { text-indent: 2em; margin-bottom: 1em; }
 q { quotes: '\201c' '\201d' '\2019' '\2020'; }
-html {
+:root {
 	font-family: 'Trebuchet MS', 'Droid Sans', 'Helvetica Neue', Helvetica, sans-serif;
 	font-size: 12pt;
 }
@@ -29,22 +29,17 @@ body::after {
 	display: block; content: ''; height: 2rem;
 }
 body > * {
-	background-color: #ffffff;
+	background-color: white;
 }
 body > header {
 	width: 100%; padding: 5px 10px;
-	display: -webkit-flex; display: -ms-flex; display: flex;
-	-webkit-flex-flow: row nowrap; -ms-flex-flow: row nowrap; flex-flow: row nowrap;
-	-webkit-justify-content: space-between; -ms-justify-content: space-between; justify-content: space-between;
-	-webkit-align-items: center; -ms-align-items: center; align-items: center;
 	border-bottom: 1px solid black;
-	text-align: center;
 	background-color: #90b3f2;
+	text-align: center;
 }
-body > nav {
-	border-right: 1px solid black; border-bottom: 1px solid black;
-	float: left;
-}
+body > header h1 { color: black; text-decoration: none; float: left; }
+body > header::after { display: block; content: ''; float: none; clear: both; }
+body > header h3 { line-height: 2.5rem; }
 body > aside {
 	border-left: 1px solid black; border-bottom: 1px solid black;
 	float: right;
@@ -60,40 +55,26 @@ body > footer > small {
 	white-space: nowrap; float: right; text-align: center;
 }
 
-/* Page Header */
-body > header h1 {
-	float: left; color: black;
-}
-body > header > h2 {
-}
-body > header > h3 {
-}
-body > header::after {
-	display: block; content: ''; float: none; clear: both;
-}
-
 /* Site Navigation */
-nav h1 {
+body > nav {
+	border-right: 1px solid black; border-bottom: 1px solid black;
+	float: left; max-width: 20vw;
+}
+body > nav h1 {
 	display: none;
 }
-nav a {
+body > nav a {
 	display: block;
 	padding: 2px 5px;
 }
-nav > a {
-	text-align: center;
-}
-nav h2 {
-	font-size: 1em;
-}
-nav > ul {
-}
-nav > ul > li {
+body > nav a:hover {
+	background-color: lightpink;
 }
 
 /* Main Content */
 main {
-	max-width: 70vw;
+	max-width: 80vw;
+	min-height: 100vh;
 	margin: 0 auto;
 	border-right: 1px solid black;
 	border-left: 1px solid black;
@@ -110,4 +91,14 @@ main > a {
 	display: block; text-align: center; font-size: smaller;
 	max-width: -webkit-fit-content; max-width: -moz-fit-content; max-width: fit-content;
 	margin: 0 auto;
+}
+main > article {
+	padding-top: 1rem; border-top: 1px solid black; margin: 1rem;
+}
+main > article > h1 {
+	font-size: 2rem;
+	text-align: center;
+}
+main > article > h2 {
+	font-size: 1.5rem;
 }

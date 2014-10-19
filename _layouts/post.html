@@ -28,29 +28,9 @@
 	{% for post in site.posts %}
 	<a href="/{{post.permalink}}">{{ post.title }}</a>
 	{% endfor %}
-{% comment %}
-	<h2>Build for All Media</h2>
-	<ul>
-		<li><a>Responsive Design</a></li>
-		<li><a>In Print</a></li>
-		<li><a>Viewport</a></li>
-		<li><a>Font Sizes</a></li>
-	</ul>
-	<h2>Upgrade</h2>
-	<ul>
-		<li>Flexbox Design</li>
-		<li>Fit Content</li>
-	</ul>
-{% endcomment %}
 </nav>
 <main>
 	{{ content }}
-	{% for post in site.posts %}
-	<article id="{{post.permalink}}">
-		<h1>{{ post.title }}</h1>
-		{{ post.content }}
-	</article>
-	{% endfor %}
 </main>
 <footer>
 	<small>{{ site.copyright }}</small>
