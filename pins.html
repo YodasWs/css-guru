@@ -1,0 +1,149 @@
+---
+layout: main
+title: Drag and Drop Pins!
+permalink: js/drag-and-drop.html
+---
+<style>
+section { width: 100%; margin: 0 auto; position: relative; }
+section > div { display: block; width: 200px; border: 1px solid black; min-height: 50px; margin: 10px; }
+section > div > img { max-width: 98%; display: block; margin: 1em auto; }
+[draggable=true] { -khtml-user-drag: element;
+	-webkit-user-select: element; -ms-user-select: element; -moz-user-select: -moz-element; user-select: element;
+	cursor: move; cursor: -webkit-grab; cursor: -moz-grab;
+}
+p { text-align: center; }
+main aside {
+	border: 1px solid black; border-radius: 10px; padding: 5px; margin: 1em auto;
+	background: lightblue; float: right; clear: right;
+}
+label { cursor: pointer; }
+</style>
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.23/jquery-ui.min.js"></script>
+<script type="text/javascript">
+// Array::indexOf(), from http://stackoverflow.com/questions/1744310/how-to-fix-array-indexof-in-javascript-for-ie-browsers
+if (!Array.prototype.indexOf) {
+	Array.prototype.indexOf = function(obj, start) {
+		for (var i = (start || 0), j = this.length; i < j; i++)
+			if (this[i] === obj)
+				return i
+		return -1
+	}
+}
+
+// Keeping track of what's dragginst
+var objDragging = {
+	'id':'',
+	'offset':{'top':0,'left':0}
+}
+// The images to show
+var pins = [
+	'http://yodas.ws/2009/11/river.JPG',
+	'http://yodas.ws/2009/11/tree2.JPG',
+	'http://yodas.ws/2009/11/gongju2.JPG',
+	'http://yodas.ws/2008/04/bigben2.JPG',
+	'http://yodas.ws/2006/04/capitol.JPG',
+	'http://yodas.ws/2004/05/cathedral2.JPG'
+]
+// Prevent Event Default
+function cancel(event) {
+
+	if (event.preventDefault) event.preventDefault()
+	return false
+}
+// Start Dragging Image
+function pickUpObj(event) {
+	objDragging.id = event.target.getAttribute('id')
+	objDragging.offset.left = event.pageX - $(event.target).offset().left
+	objDragging.offset.top = event.pageY - $(event.target).offset().top
+}
+// Drop Image, Rearrange Images
+function setDownObj(event) {
+	cancel(event)
+	var placement = $(event.target).closest('.dropzone')
+	var movingBox = $('#' + objDragging.id).closest('.dropzone')
+	if (placement.index() == movingBox.index()) return
+	movingBox.css({
+		'min-height':'0',
+		'height':movingBox.height()
+	})
+	byeBox = function() {
+		showBox(movingBox, placement)
+	}
+	if ($('#animateboxes').is(':checked')) {
+		movingBox.fadeOut(500, byeBox)
+	} else {
+		movingBox.hide()
+		byeBox()
+	}
+	return false
+}
+// Show the Image that was Dragged
+function showBox(box, pos) {
+	if (pos.index() == box.index()) return
+	if (pos.index() < box.index()) pos.before(box)
+	else pos.after(box)
+	resize($('#animateboxes').is(':checked'), function() {
+		if ($('#animateboxes').is(':checked')) box.slideDown(1100, 'easeOutBounce', function() {
+			$(this).show()
+		})
+		else box.show()
+	})
+}
+$(document).ready(function() {
+	// Create Pins
+	for (var i=0; i<pins.length*8; i++)
+		$('<div>').addClass('dropzone').html('<img draggable="true" src="' + pins[i%pins.length] + '"/>').appendTo('section')
+	// Set Dropzones
+	$('section > div.dropzone').each(function(i) {
+		var $this = $(this)
+		$this.css({position:'absolute',left:0,top:0})
+		if (i % 2 == 1) $this.css('min-height', '200px')
+		if (i % 3 == 2) $this.css('min-height', '150px')
+		if (i % 5 == 3) $this.css('min-height', '350px')
+		if (i % 7 == 4) $this.css('min-height', '400px')
+		$this.on('drop', setDownObj).on('dragover', cancel).on('dragenter', cancel)
+	})
+	// Enable Dragging
+	$('[draggable=true]').each(function(i) {
+		var $this = $(this)
+		$this.attr('title', 'Drag Me !')
+		if (!$this.attr('id')) $this.attr('id', 'drag' + i)
+		$this.on('dragstart', pickUpObj).on('dragend', cancel)
+	})
+	$(window).resize(function() {
+		resize()
+	})
+	resize(false)
+	$('img').on('load', function() {
+		resize(true)
+	})
+})
+function resize(animate, callback) {
+	if ($('section > div.dropzone').length > 0) {
+		var columnHeights = [], dropzones = $('section > div.dropzone'), lMargin, section = $('main > section')
+			numColumns = Math.floor(section.width() / dropzones.outerWidth(true))
+		for (i=0; i<numColumns; i++) columnHeights[i] = section.height()
+		lMargin = Math.floor((section.width() - numColumns * dropzones.outerWidth(true)) / 2)
+		i = -1
+		dropzones.each(function() {
+			var $this = $(this)
+			eval('i = columnHeights.indexOf(Math.min(' + columnHeights.join() + '));')
+			css = {
+				'position': 'absolute',
+				'left': dropzones.outerWidth(true) * i + lMargin,
+				'top': columnHeights[i]
+			}
+			if (animate === true)
+				$this.animate(css, 1000, 'easeInOutBack')
+			else
+				$this.css(css)
+			columnHeights[i] += $this.outerHeight(true)
+		})
+	}
+	if (typeof callback == 'function') callback()
+}
+</script>
+<div><label><input type="checkbox" id="animateboxes" checked /> Animated</label></div>
+<section>
+<p>Welcome! Please feel free to drag the images!</p>
+</section>

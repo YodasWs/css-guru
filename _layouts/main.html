@@ -6,13 +6,11 @@
 {% else %}
 <title>{{ site.title }}</title>
 {% endif %}
+<!--[if lt IE 9]><script type="text/javascript" src="http://yodas.ws/api/html5shiv.js"></script><![endif]-->
 <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1" />
 <meta name="msvalidate.01" content="0D16ACC1792BF537CCCE7A7F6499330F" />
 <meta charset="utf-8" />
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-{% comment %}
-<link rel="alternate" href="/feed.xml" type="application/xml+rss" />
-{% endcomment %}
 <link rel="stylesheet" href="/css/default.css" />
 </head>
 <body>
@@ -25,9 +23,12 @@
 <nav>
 	<h1>CSS Guru Navigation</h1>
 	<a href="/">Home</a>
+	<h2>Blog</h2>
 	{% for post in site.posts %}
 	<a href="/{{post.permalink}}">{{ post.title }}</a>
 	{% endfor %}
+	<h2>JavaScript</h2>
+	<a href="/js/drag-and-drop.html">Drag and Drop</a>
 {% comment %}
 	<h2>Build for All Media</h2>
 	<ul>
@@ -43,14 +44,17 @@
 	</ul>
 {% endcomment %}
 </nav>
+<aside><img src="http://www.w3.org/html/logo/downloads/HTML5_1Color_White.png" alt="This site uses HTML5" height="100" /></aside>
 <main>
 	{{ content }}
+	{% unless page.title %}
 	{% for post in site.posts %}
 	<article id="{{post.permalink}}">
 		<h1>{{ post.title }}</h1>
 		{{ post.content }}
 	</article>
 	{% endfor %}
+	{% endunless %}
 </main>
 <footer>
 	<small>{{ site.copyright }}</small>
