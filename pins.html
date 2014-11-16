@@ -46,7 +46,6 @@ var pins = [
 ]
 // Prevent Event Default
 function cancel(event) {
-
 	if (event.preventDefault) event.preventDefault()
 	return false
 }
@@ -143,7 +142,7 @@ function resize(animate, callback) {
 	if (typeof callback == 'function') callback()
 }
 </script>
-<div><label><input type="checkbox" id="animateboxes" checked /> Animated</label></div>
+<div><label><input type="checkbox" id="animateboxes" /> Animated</label></div>
 <section>
 <p>Welcome! Please feel free to drag the images!</p>
 </section>
