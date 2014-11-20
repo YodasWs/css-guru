@@ -9,5 +9,7 @@ url: 'http://css3design.guru'
 description: ''
 copyright: '&copy;2014 Samuel B Grundman'
 email: css3design@yodas.ws
-email_url: \%22Sam\%20Grundman\%22\%20<\%20css3design\%20@\%20(\%20css3design.guru\%20)\%20yodas.ws\%20>
+email_url: "%22Sam%20Grundman%22%20<%20css3design%20@%20(%20css3design.guru%20)%20yodas.ws%20>"
 devName: 'Samuel B Grundman'
+timezone: 'America/Detroit'
+---
