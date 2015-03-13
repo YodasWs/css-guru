@@ -1,0 +1,84 @@
+---
+layout: main
+title: Building for Mobile, Discovering the Joys of Responsive Design
+permalink: mobile/responsive-design.html
+categories:
+- Mobile
+- Responsive Design
+---
+<p>With today's proliferation of mobile devices, people are no longer connecting to your website on their desktops.
+	They're using small screens that cannot provide an easy reading experience with many traditional websites designed for large screens.
+	Websites, then, need to cater content for these users.</p>
+<section class="tldr">
+	<h1><abbr title="Too long; didn't read">TL;DR</abbr></h1>
+	<p>When you dictate a screen's size, you are not using the user's system to your advantage.</p>
+	<ul>
+		<li>Build one site for all devices</li>
+		<li>Avoid user-agent detection</li>
+		<li>Use <code>&lt;meta name="viewport"/&gt;</code> to tell browsers how to behave</li>
+		<li>Use CSS <code>@media</code> to fit your content onto different displays</li>
+	</ul>
+</section>
+
+<h2>The Hazards of Separate Sites</h2>
+<p>Many websites will duplicate their content into a special "mobile-friendly" website accessable at a separate URL. The idea seems straight forward:</p>
+<ol>
+	<li>User goes to example.com</li>
+	<li>Site detects mobile user-agent string.</li>
+	<li>Site redirects to m.example.com.</li>
+</ol>
+<p>Depending on how you've set up your web server, you could also be tasked with building, developing, and maintaining two completely separate sites with separate content and disconnected features. This is a big no-go, not only because of the extra time you must invest, but because you will likely end up with a feature missing from your mobile site! A number of such sites try to appease their users by providing a link to their "full" website for desktop users. Here you run the risk of running into a couple huge user experience problems:</p>
+</ul>
+<ul>
+	<li>The "full" website doesn't work on the user's device, losing you a customer.</li>
+	<li>The "full" website detects a mobile browser and pushes the user back onto the mobile website they were just trying to escape, losing you a customer.</li>
+</ul>
+<p class="main-idea">So for the sake of your customers and your development team, just scrap the whole idea of a mobile-only website</p>
+
+<h2>Problems with User-Agent Detection</h2>
+<p>I don't think I can write better than <a href="https://developers.google.com/webmasters/mobile-sites/mobile-seo/configurations/dynamic-serving" target="_blank">Google</a> on these points:</p>
+<blockquote cite="https://developers.google.com/webmasters/mobile-sites/mobile-seo/configurations/dynamic-serving">User-agent detection depends on having a list of user-agent strings (or substrings) to match against. Such lists need constant maintenance and updating and will not match new user-agents. In reality, many such lists are not maintained appropriately and are stale, giving your users a bad experience.</blockquote>
+<blockquote cite="https://developers.google.com/webmasters/mobile-sites/mobile-seo/configurations/dynamic-serving">When matching user-agents, it’s common to mismatch, sometimes detecting a desktop user-agent as a mobile one or detecting a mobile user-agent as a desktop. Likewise, a common mistake for sites is to inadvertently treat tablet devices as smartphones.</blockquote>
+<blockquote cite="https://developers.google.com/webmasters/mobile-sites/mobile-seo/configurations/dynamic-serving">Be very careful of cloaking when detecting user-agents.</blockquote>
+<p class="main-idea">Browsers lie, so avoid user-agent detection</p>
+
+<h2>Setting the Screen Width</h2>
+<p>Now that we have covered what isn't responsive design, let's look at how you can use responsive design in your website.</p>
+<p>First, you need to notify browsers how to display the viewport that will contain your website. Each page needs to include the following line within <code>&lt;head&gt;</code>:</p>
+<code>&lt;meta name="viewport" content="width=device-width, initial-scale=1.0"/&gt;</code>
+<p>As <a href="https://developers.google.com/webmasters/mobile-sites/mobile-seo/configurations/responsive-design" target="_blank">Google</a> puts it:</p>
+<blockquote cite="https://developers.google.com/webmasters/mobile-sites/mobile-seo/configurations/responsive-design">
+	<p>[M]obile browsers default to rendering the page at a desktop screen width. Mobile browsers then try to make the content look better by increasing font sizes and either scaling the content to fit the screen or showing only the part of the content that fits within the screen.</p>
+	<p>For users, this means that font sizes may have an inconsistent appearance, and users may have to double-tap or pinch-to-zoom in order to be able to see and interact with the content.</p>
+</blockquote>
+<p>What these meta tag settings actually do is simple: forces the browser to set the page width equal to the device's screen width and sets the initial page zoom level. Over options include setting the window height, minimum-scale, maximum-scale, and whether the user can zoom using user-scalable, though you should not normally find a need for these.</p>
+<h2>Modifying Content Layout</h2>
+<h3>CSS <code>@media</code> <abbr title="For the win">FTW</abbr></h3>
+<p>The main work of responsive design is getting your page to show a different layout based upon the medium used to view your page. Thus CSS3 gives us the <code>@media</code> at-rule!</p>
+<code><span class="at-rule">@media</span> <span class="type">screen</span> <span class="brace">{</span>
+    <span class="node">section</span> <span class="brace">{</span> <span class="attr">width</span>: 100%; <span class="brace">}</span>
+<span class="brace">}</span></code>
+<p>This is a start, but you need to build based on <em>physical dimensions</em> more than supposed medium.
+	<small style="display: block; text-indent: 2em;">(especially when mobile phones will often lie about being a "screen")</small></p>
+<code><span class="at-rule">@media</span> (<span class="media"><span class="type">min-width</span>: <span class="notice">1024px</span></span>) <span class="brace">{</span>
+	<span class="node">section</span> <span class="brace">{</span>
+		<span class="attr">width</span>: <span class="val">75%</span>;
+		<span class="attr">float</span>: <span class="val">none</span>;
+	<span class="brace">}</span>
+	<span class="node">aside</span> <span class="brace">{</span>
+		<span class="attr">width</span>: <span class="val">25%</span>;
+		<span class="attr">float</span>: <span class="val">none</span>;
+	<span class="brace">}</span>
+<span class="brace">}</span>
+<span class="at-rule">@media</span> (<span class="media"><span class="type">min-width</span>: <span class="notice">700px</span></span>) and (<span class="media"><span class="type">max-width</span>: <span class="notice">1024px</span></span>) <span class="brace">{</span>
+	<span class="node">section</span>, <span class="node">aside</span> <span class="brace">{</span>
+		<span class="attr">width</span>: <span class="val">50%</span>;
+		<span class="attr">float</span>: <span class="val">none</span>;
+	<span class="brace">}</span>
+<span class="brace">}</span>
+<span class="at-rule">@media</span> (<span class="media"><span class="type">max-width</span>: <span class="notice">700px</span></span>) <span class="brace">{</span>
+	<span class="node">section</span>, <span class="node">aside</span> <span class="brace">{</span>
+		<span class="attr">width</span>: <span class="val">100%</span>;
+		<span class="attr">float</span>: <span class="val">none</span>;
+	<span class="brace">}</span>
+<span class="brace">}</span></code>

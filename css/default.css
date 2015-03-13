@@ -1,8 +1,13 @@
 /* Standard CSS Resets */
-* { -moz-box-sizing: border-box; box-sizing: border-box; margin: 0; padding: 0; }
-ul { padding-left: 1.5em; }
+* { -moz-box-sizing: border-box; box-sizing: border-box; margin: 0; padding: 0; line-height: 1.3em; }
+ol, ul { padding-left: 1.5em; margin-bottom: 1em; }
 a img { border: 0 none; }
+
 /* Basic Page CSS */
+:root {
+	font-family: 'Trebuchet MS', 'Droid Sans', 'Helvetica Neue', Helvetica, sans-serif;
+	font-size: 1em;
+}
 a:link, a:visited { color: #0000ff; text-decoration: none; }
 a:link:hover, a:link:active, a:visited:hover, a:visited:active { color: #0000ff; text-decoration: underline; }
 a[href^="http"]:link, a[href^="http"]:visited {
@@ -16,10 +21,6 @@ a[href^="http"]:link::after,  a[href^="http"]:visited::after {
 }
 p { text-indent: 2em; margin-bottom: 1em; }
 q { quotes: '\201c' '\201d' '\2019' '\2020'; }
-:root {
-	font-family: 'Trebuchet MS', 'Droid Sans', 'Helvetica Neue', Helvetica, sans-serif;
-	font-size: 12pt;
-}
 body {
 	position: relative;
 	min-height: 100vh;
@@ -39,7 +40,7 @@ body > header {
 }
 body > header h1 { color: black; text-decoration: none; float: left; }
 body > header::after { display: block; content: ''; float: none; clear: both; }
-body > header h3 { line-height: 2.5rem; }
+body > header h3 { line-height: 2.5em; }
 body > footer {
 	width: 100%; padding-left: 1em; padding-right: 1em;
 	line-height: 2rem;
@@ -49,6 +50,7 @@ body > footer {
 }
 body > footer > small {
 	white-space: nowrap; float: right; text-align: center;
+	line-height: 2rem;
 }
 
 body > aside, body > nav {
@@ -113,7 +115,56 @@ main > article {
 main > article > h1 {
 	font-size: 2rem;
 	text-align: center;
+	font-family: 'Droid Serif', serif;
 }
 main > article > h2 {
+	font-family: 'Droid Serif', serif;
 	font-size: 1.5rem;
 }
+main > article > h2 { font-variant: small-caps; }
+main > article > h2 {
+	border-bottom: 5px solid #74a7ff; width: 100%; padding: 0.1em 3%;
+}
+
+/* Post Main Idea */
+p.main-idea::before {
+	display: block; content: 'Main Idea:';
+	font-weight: bold; text-indent: -10px; white-space: nowrap;
+	letter-spacing: 3px; font-size: 1.1em;
+}
+p.main-idea {
+	padding: 7px 35px;
+	background: #748ed6; color: white;
+	color: #303055;
+	background: #ffbc78;
+	background: #ffc890;
+}
+
+
+/* Post SubSections */
+section { width: 100%; }
+section.tldr {
+	padding: 2px 5px; clear: both;
+	background: #da2e75; color: white;
+}
+section.tldr > h1 { margin-top: 1rem; text-indent: 2rem; }
+section.tldr + *, p.main-idea + * {
+	margin-top: 2rem;
+}
+
+/* Code Examples */
+article > code { display: block; white-space: pre; background: linen; padding: .6em 1em; }
+code .media { text-decoration: underline; }
+code .at-rule { color: rebeccapurple; }
+code .node { color: darkgoldenrod; }
+code .brace { color: dodgerblue; }
+code .val { color: darkred; }
+code .notice { color: red; }
+code .type { color: green; }
+code .attr { color: green; }
+
+/* Quotes */
+blockquote { padding: .5em 1em; border: 1px solid dodgerblue; }
+blockquote > p:first-child { margin-top: 0; }
+blockquote > p:last-child { margin-bottom: 0; }
+li > blockquote { margin-left: 0; }
