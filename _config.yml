@@ -1,6 +1,6 @@
 ---
 include: ['index.html', 'css', 'js']
-exclude: ['README.md', 'CNAME', 'css3design.guru.conf', 'css3design.guru.rss', 'Thumbs.db','Start Command Prompt with Ruby.lnk']
+exclude: ['README.md', 'CNAME', 'site.conf', 'css3design.guru.rss', 'Thumbs.db','Start Command Prompt with Ruby.lnk']
 encoding: 'UTF-8'
 future: false
 excerpt_separator: "\n"
@@ -8,8 +8,8 @@ title: 'CSS3 Design Guru'
 url: 'http://css3design.guru'
 description: ''
 copyright: '&copy;2014 Samuel B Grundman'
-email: css3design@yodas.ws
-email_url: '"Sam Grundman" < css3design @ yodas.ws ( css3design.guru )>'
+email: css3design.guru@yodas.ws
+email_url: '"Sam Grundman" <css3design.guru@yodas.ws>'
 devName: 'Samuel B Grundman'
 timezone: 'America/Detroit'
 ---
