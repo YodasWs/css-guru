@@ -59,7 +59,7 @@ var lines = [
 	{
 		num: 20, color: 'orange',
 		pnts:[
-			'FLO','CAE','AGS','ATL','BHM','MEI','JAN','SHR','DAL','FTW','REV'
+			'REV','FTW','DAL','SHR','JAN','MEI','BHM','ATL','AGS','CAE','FLO'
 		]
 	},
 	{
@@ -77,7 +77,7 @@ var lines = [
 	{
 		num: 25, color: 'lightgreen',
 		pnts:[
-			'LAC','ABQ'
+			'ABQ','LAC'
 		]
 	},
 	{
@@ -101,7 +101,7 @@ var lines = [
 	{
 		num: 35, color: 'blue',
 		pnts:[
-			'LRD','SAT','HIL','DAL','DTN','OKC','ICT','EMP','MCI'
+			'MCI','EMP','ICT','OKC','DTN','DAL','HIL','SAT','LRD'
 		]
 	},
 	{
@@ -131,7 +131,7 @@ var lines = [
 	{
 		num: 40, color: 'red',
 		pnts:[
-			'ILM','BEN','RGH','DNC','GSO','INT','STA','AVL','TYS','BNA','MEM','LIT','FSM','OKC','AMA','TUC','SRA','ABQ','GUP','FLG','IGM','NDL','DAG'
+			'DAG','NDL','IGM','FLG','GUP','ABQ','SRA','TUC','AMA','OKC','FSM','LIT','MEM','BNA','TYS','AVL','STA','INT','GSO','DNC','RGH','BEN','ILM'
 		]
 	},
 	{
@@ -149,7 +149,7 @@ var lines = [
 	{
 		num: 55, color: 'deepskyblue',
 		pnts:[
-			'MSY','HDC','JAN','MEM','SIK','STL','SPI','LIN','BMI','ORD'
+			'ORD','BMI','LIN','SPI','STL','SIK','MEM','JAN','HDC','MSY'
 		]
 	},
 	{
@@ -179,7 +179,7 @@ var lines = [
 	{
 		num: 65, color: 'green',
 		pnts:[
-			'MOB','MGM','BHM','BNA','SDF','IND'
+			'IND','SDF','BNA','BHM','MGM','MOB'
 		]
 	},
 	{
@@ -257,7 +257,7 @@ var lines = [
 	{
 		num: 85, color: 'blue',
 		pnts:[
-			'MGM','ATL','GRV','SPB','CLT','HPT','GSO','DNC','PTB'
+			'PTB','DNC','GSO','HPT','CLT','SPB','GRV','ATL','MGM'
 		]
 	},
 	{
@@ -423,8 +423,68 @@ document.addEventListener('DOMContentLoaded', function() {
 	gL = document.getElementById('lines')
 	gC = document.getElementById('cities')
 	gN = document.getElementById('numbers')
+	var pntPlaced = [],
+		axisMain = 100
+	// Arrange Cities on East-West Routes
+	lines.forEach(function(l) {
+		var lastX = -10
+		if (!Number.isFinite(l.num) || l.num % 10 || l.num >= 100) return
+		l.pnts.forEach(function(p,i) {
+//console.log('looking to place ' + p)
+			var axisCross = Math.max(lastX + 10, i * 10)
+			if (pntPlaced.indexOf(p) == -1) {
+				pntPlaced.push(p)
+				points[p].x = axisCross
+				points[p].y = axisMain
+			} else {
+				points[p].x = Math.max(points[p].x, axisCross)
+			}
+			lastX = points[p].x
+//console.log(points[p].x + ',' + points[p].y)
+		})
+		axisMain -= 20
+	})
+	axisMain = 0
+	// Arrange Cities on North-South Routes, starting with placed cities
+	lines.forEach(function(l) {
+		var lastX = axisMain,
+			lastY = -10
+		if (!Number.isFinite(l.num) || l.num % 10 != 5 || l.num >= 100) return
+		l.pnts.forEach(function(p,i) {
+			var axisCross = Math.max(lastY + 5, i * 10)
+			if (pntPlaced.indexOf(p) == -1) {
+				pntPlaced.push(p)
+				points[p].x = lastX
+				points[p].y = axisCross
+			} else {
+//				points[p].x = Math.max(points[p].x, lastX)
+//				points[p].y = Math.max(points[p].y, axisCross)
+			}
+			lastX = points[p].x
+			lastY = points[p].y
+		})
+		axisMain += 20
+	})
+	axisMain = 0
+	// Arrange Cities on North-South Routes
+	lines.forEach(function(l) {
+		var lastX = axisMain,
+			lastY = -10
+		if (!Number.isFinite(l.num) || l.num % 10 != 5 || l.num >= 100) return
+		l.pnts.forEach(function(p,i) {
+			var axisCross = Math.max(lastY + 5, i * 10)
+			if (pntPlaced.indexOf(p) != -1) {
+				points[p].x = Math.max(points[p].x, lastX)
+				points[p].y = Math.max(points[p].y, axisCross)
+			}
+			lastX = points[p].x
+			lastY = points[p].y
+		})
+		axisMain += 20
+	})
 	// Draw Interstate Lines
 	lines.forEach(function(l) {
+if (!Number.isFinite(l.num) || l.num % 10 % 5 || l.num >= 100) return
 		var line = [], p = document.createElementNS(ns,'polyline')
 		l.pnts.forEach(function(p,i) {
 			line.push(points[p].x + ',' + points[p].y)
