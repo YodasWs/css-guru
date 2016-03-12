@@ -35,13 +35,19 @@ var lines = [
 	{
 		num: 10, color: 'red',
 		pnts:[
-			'PHX','CGD','LAC','ELP','REV','SAT','IAH','LAF','BTR','MSY','ASD','MOB','TLH','LCQ','JAX'
+		'SNM','LAX','ONT','PHX','CGD','LAC','ELP','REV','SAT','IAH','LAF','BTR','MSY','ASD','MOB','TLH','LCQ','JAX'
 		]
 	},
 	{
 		num: 12, color: 'lightgrey',
 		pnts:[
 			'BTR','HDC','ASD'
+		]
+	},
+	{
+		num: 15, color: 'gold',
+		pnts:[
+			'FLF','DAG','ONT','SND'
 		]
 	},
 	{
@@ -77,7 +83,7 @@ var lines = [
 	{
 		num: 25, color: 'lightgreen',
 		pnts:[
-			'ABQ','LAC'
+			'DEN','ABQ','LAC'
 		]
 	},
 	{
@@ -130,6 +136,8 @@ var lines = [
 	},
 	{
 		num: 40, color: 'red',
+		offset: {x: 0},
+		mainLine:true,
 		pnts:[
 			'DAG','NDL','IGM','FLG','GUP','ABQ','SRA','TUC','AMA','OKC','FSM','LIT','MEM','BNA','TYS','AVL','STA','INT','GSO','DNC','RGH','BEN','ILM'
 		]
@@ -148,6 +156,8 @@ var lines = [
 	},
 	{
 		num: 55, color: 'deepskyblue',
+		offset: {x: 4},
+		mainLine:true,
 		pnts:[
 			'ORD','BMI','LIN','SPI','STL','SIK','MEM','JAN','HDC','MSY'
 		]
@@ -208,8 +218,9 @@ var lines = [
 	},
 	{
 		num: 70, color: 'orange',
+		offset: {x: 7},
 		pnts:[
-			'SLN','FOE','MCI','STL','a1H2','IND','DAY','CBO','HGR','BWI'
+			'FLF','DEN','SLN','FOE','MCI','STL','a1H2','IND','DAY','CBO','HGR','BWI'
 		]
 	},
 	{
@@ -256,6 +267,7 @@ var lines = [
 	},
 	{
 		num: 85, color: 'blue',
+		offset: {x: 7},
 		pnts:[
 			'PTB','DNC','GSO','HPT','CLT','SPB','GRV','ATL','MGM'
 		]
@@ -367,6 +379,7 @@ var lines = [
 	SPI:{x:140,y:22,name:'Springfield'},
 	HAE:{x:135,y:22,name:'Hannibal'},
 	PIA:{x:140,y:15,name:'Peoria'},
+	LAX:{x:50,y:100,name:'Los Angeles'},
 
 	// Amtrak Station Codes
 	RGH:{x:260,y:50,name:'Raleigh'},
@@ -417,68 +430,106 @@ var lines = [
 	DTN:{x:100,y:105,name:'Denton'},
 	HIL:{x:100,y:115,name:'Hillsboro'},
 
+	DEN:{x: 90,y: 30,name:'Denver'},
+	FLF:{x: 80,y: 30,name:'Fishlake National Forest'},
+	ONT:{x: 70,y: 90,name:'Ontario'},
+	SNM:{x: 60,y: 90,name:'Santa Monica'},
+	SND:{x: 65,y:105,name:'San Diego'},
+
 }, doc = document.getElementsByTagName('svg')[0], ns = 'http://www.w3.org/2000/svg', gC,gL,gN
 ;
 document.addEventListener('DOMContentLoaded', function() {
+	var pntPlaced = [],
+		axisMain = 120,
+		lastX,
+		lastY,
+		placeCities = function(dir, l, p, i, included) {
+			var axisCross
+			switch (dir) {
+			case 'ew':
+				if (l.offset && l.offset.x) i += l.offset.x
+//console.log('looking to place ' + p)
+				axisCross = Math.max(lastX + 10, i * 10)
+				points[p].txtDisplay.y = i % 2 ? 'bottom' : 'top'
+				if (pntPlaced.indexOf(p) == -1) {
+					pntPlaced.push(p)
+					points[p].x = axisCross
+					points[p].y = axisMain
+				} else {
+					points[p].x = Math.max(points[p].x, axisCross)
+				}
+				lastX = points[p].x
+//console.log(points[p].x + ',' + points[p].y)
+				break;
+			case 'ns':
+				if (l.offset && l.offset.y) i += l.offset.y
+				axisCross = Math.max(lastY + 5, i * 10)
+				if (!included && pntPlaced.indexOf(p) == -1) {
+					pntPlaced.push(p)
+					points[p].x = lastX
+					points[p].y = axisCross
+				} else if (included && pntPlaced.indexOf(p) != -1) {
+//					points[p].x = Math.max(points[p].x, lastX)
+					points[p].x = points[p].x
+					points[p].y = Math.max(points[p].y, axisCross)
+//					points[p].y = points[p].y
+				}
+				lastX = points[p].x
+				lastY = points[p].y
+				break;
+			}
+		}
+	// Initialize Objects
+	for (i in points) {
+		points[i].txtDisplay = {x:'right',y:'bottom'}
+	}
 	gL = document.getElementById('lines')
 	gC = document.getElementById('cities')
 	gN = document.getElementById('numbers')
-	var pntPlaced = [],
-		axisMain = 100
 	// Arrange Cities on East-West Routes
 	lines.forEach(function(l) {
-		var lastX = -10
+		lastX = -10
 		if (!Number.isFinite(l.num) || l.num % 10 || l.num >= 100) return
+		if (l.offset && l.offset.y) axisMain += l.offset.y * 10
 		l.pnts.forEach(function(p,i) {
-//console.log('looking to place ' + p)
-			var axisCross = Math.max(lastX + 10, i * 10)
-			if (pntPlaced.indexOf(p) == -1) {
-				pntPlaced.push(p)
-				points[p].x = axisCross
-				points[p].y = axisMain
-			} else {
-				points[p].x = Math.max(points[p].x, axisCross)
-			}
-			lastX = points[p].x
-//console.log(points[p].x + ',' + points[p].y)
+			placeCities('ew', l, p, i)
 		})
 		axisMain -= 20
 	})
 	axisMain = 0
-	// Arrange Cities on North-South Routes, starting with placed cities
+	// Arrange Cities on North-South Routes, starting with cities not yet placed
 	lines.forEach(function(l) {
-		var lastX = axisMain,
-			lastY = -10
+		lastX = axisMain
+		lastY = -10
 		if (!Number.isFinite(l.num) || l.num % 10 != 5 || l.num >= 100) return
+		if (l.offset && l.offset.x) lastX += l.offset.x * 10
 		l.pnts.forEach(function(p,i) {
-			var axisCross = Math.max(lastY + 5, i * 10)
-			if (pntPlaced.indexOf(p) == -1) {
-				pntPlaced.push(p)
-				points[p].x = lastX
-				points[p].y = axisCross
-			} else {
-//				points[p].x = Math.max(points[p].x, lastX)
-//				points[p].y = Math.max(points[p].y, axisCross)
-			}
-			lastX = points[p].x
-			lastY = points[p].y
+			placeCities('ns', l, p, i, true)
 		})
 		axisMain += 20
 	})
 	axisMain = 0
-	// Arrange Cities on North-South Routes
+	// Arrange Cities on North-South Routes, now cities previously placed
 	lines.forEach(function(l) {
-		var lastX = axisMain,
-			lastY = -10
+		lastX = axisMain
+		lastY = -10
 		if (!Number.isFinite(l.num) || l.num % 10 != 5 || l.num >= 100) return
+		if (l.offset && l.offset.x) lastX += l.offset.x * 10
 		l.pnts.forEach(function(p,i) {
+			placeCities('ns', l, p, i, false)
+/*
+			if (l.offset && l.offset.y) i += l.offset.y
 			var axisCross = Math.max(lastY + 5, i * 10)
 			if (pntPlaced.indexOf(p) != -1) {
-				points[p].x = Math.max(points[p].x, lastX)
+//				points[p].x = Math.max(points[p].x, lastX)
+//				points[p].x = (points[p].x + lastX) / 2
+//				points[p].x = lastX
+				points[p].x = points[p].x
 				points[p].y = Math.max(points[p].y, axisCross)
 			}
 			lastX = points[p].x
 			lastY = points[p].y
+/**/
 		})
 		axisMain += 20
 	})
@@ -534,7 +585,14 @@ if (!Number.isFinite(l.num) || l.num % 10 % 5 || l.num >= 100) return
 		var t = document.createElementNS(ns,'text'), pnt = points[p]
 		t.appendChild(document.createTextNode(pnt.name))
 		t.setAttribute('x', pnt.x + 1)
-		t.setAttribute('y', pnt.y + 3)
+		switch (pnt.txtDisplay.y) {
+		case 'top':
+			t.setAttribute('y', pnt.y - 2)
+			break;
+		case 'bottom':
+		default:
+			t.setAttribute('y', pnt.y + 3)
+		}
 		gC.appendChild(t)
 	})
 })
