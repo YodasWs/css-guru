@@ -137,7 +137,6 @@ var lines = [
 	{
 		num: 40, color: 'red',
 		offset: {x: 0},
-		mainLine:true,
 		pnts:[
 			'DAG','NDL','IGM','FLG','GUP','ABQ','SRA','TUC','AMA','OKC','FSM','LIT','MEM','BNA','TYS','AVL','STA','INT','GSO','DNC','RGH','BEN','ILM'
 		]
@@ -157,7 +156,6 @@ var lines = [
 	{
 		num: 55, color: 'deepskyblue',
 		offset: {x: 4},
-		mainLine:true,
 		pnts:[
 			'ORD','BMI','LIN','SPI','STL','SIK','MEM','JAN','HDC','MSY'
 		]
@@ -432,9 +430,9 @@ var lines = [
 
 	DEN:{x: 90,y: 30,name:'Denver'},
 	FLF:{x: 80,y: 30,name:'Fishlake National Forest'},
-	ONT:{x: 70,y: 90,name:'Ontario'},
-	SNM:{x: 60,y: 90,name:'Santa Monica'},
-	SND:{x: 65,y:105,name:'San Diego'},
+	ONT:{x: 60,y:100,name:'Ontario'},
+	SNM:{x: 45,y:100,name:'Santa Monica'},
+	SND:{x: 60,y:110,name:'San Diego'},
 
 }, doc = document.getElementsByTagName('svg')[0], ns = 'http://www.w3.org/2000/svg', gC,gL,gN
 ;
@@ -443,7 +441,7 @@ document.addEventListener('DOMContentLoaded', function() {
 		axisMain = 120,
 		lastX,
 		lastY,
-		placeCities = function(dir, l, p, i, included) {
+		placeCities = function(dir, l, p, i) {
 			var axisCross
 			switch (dir) {
 			case 'ew':
@@ -464,20 +462,24 @@ document.addEventListener('DOMContentLoaded', function() {
 			case 'ns':
 				if (l.offset && l.offset.y) i += l.offset.y
 				axisCross = Math.max(lastY + 5, i * 10)
-				if (!included && pntPlaced.indexOf(p) == -1) {
+				if (pntPlaced.indexOf(p) == -1) {
 					pntPlaced.push(p)
 					points[p].x = lastX
 					points[p].y = axisCross
-				} else if (included && pntPlaced.indexOf(p) != -1) {
-//					points[p].x = Math.max(points[p].x, lastX)
+				} else if (pntPlaced.indexOf(p) != -1) {
 					points[p].x = points[p].x
 					points[p].y = Math.max(points[p].y, axisCross)
-//					points[p].y = points[p].y
 				}
 				lastX = points[p].x
 				lastY = points[p].y
 				break;
+			default:
+				if (lastX === false && lastY === false)
+				if (pntPlaced.indexOf(p) == -1) {
+				}
 			}
+if (Number.isNaN(points[p].y))
+console.log(l.num + ' ' + p + ', ' + 'y: ' + points[p].y)
 		}
 	// Initialize Objects
 	for (i in points) {
@@ -486,6 +488,42 @@ document.addEventListener('DOMContentLoaded', function() {
 	gL = document.getElementById('lines')
 	gC = document.getElementById('cities')
 	gN = document.getElementById('numbers')
+mainLines = [40, 55]
+// Find Diagram Origin City
+var bounds = doc.viewBox.baseVal;
+var mainLineIndices = [];
+var originCity = ''
+lines.forEach(function(l, i) {
+	if (mainLines.indexOf(l.num) != -1) mainLineIndices.push(i);
+})
+console.log(mainLineIndices);
+lines[mainLineIndices[0]].pnts.forEach(function(p) {
+	if (lines[mainLineIndices[1]].pnts.indexOf(p) != -1)
+		originCity = p;
+});
+console.log(originCity);
+points[originCity].x = bounds.width / 2;
+points[originCity].y = bounds.height / 2;
+/*
+	// Place Cities down Main Lines
+	lines.forEach(function(l) {
+		if (l.num % 2) {
+			lastX = 50
+			lastY = -10
+			axisMain = 50
+		} else {
+			lastX = -10
+			lastY = -10
+			axisMain = 120
+		}
+		if (!l.mainLine) return
+		if (l.offset && l.offset.y) axisMain += l.offset.y * 10
+		l.pnts.forEach(function(p,i) {
+			placeCities(l.num % 2 ? 'ns' : 'ew', l, p, i)
+		})
+		axisMain -= 20
+	})
+	axisMain = 120
 	// Arrange Cities on East-West Routes
 	lines.forEach(function(l) {
 		lastX = -10
@@ -497,42 +535,31 @@ document.addEventListener('DOMContentLoaded', function() {
 		axisMain -= 20
 	})
 	axisMain = 0
-	// Arrange Cities on North-South Routes, starting with cities not yet placed
+	// Arrange Cities on North-South Routes
 	lines.forEach(function(l) {
 		lastX = axisMain
 		lastY = -10
 		if (!Number.isFinite(l.num) || l.num % 10 != 5 || l.num >= 100) return
 		if (l.offset && l.offset.x) lastX += l.offset.x * 10
 		l.pnts.forEach(function(p,i) {
-			placeCities('ns', l, p, i, true)
+			placeCities('ns', l, p, i)
 		})
 		axisMain += 20
 	})
-	axisMain = 0
-	// Arrange Cities on North-South Routes, now cities previously placed
-	lines.forEach(function(l) {
-		lastX = axisMain
-		lastY = -10
-		if (!Number.isFinite(l.num) || l.num % 10 != 5 || l.num >= 100) return
-		if (l.offset && l.offset.x) lastX += l.offset.x * 10
-		l.pnts.forEach(function(p,i) {
-			placeCities('ns', l, p, i, false)
 /*
-			if (l.offset && l.offset.y) i += l.offset.y
-			var axisCross = Math.max(lastY + 5, i * 10)
-			if (pntPlaced.indexOf(p) != -1) {
-//				points[p].x = Math.max(points[p].x, lastX)
-//				points[p].x = (points[p].x + lastX) / 2
-//				points[p].x = lastX
-				points[p].x = points[p].x
-				points[p].y = Math.max(points[p].y, axisCross)
-			}
-			lastX = points[p].x
-			lastY = points[p].y
-/**/
+	axisMain = 0
+	// Now add other Routes
+	lines.forEach(function(l) {
+		lastX = false
+		lastY = false
+		if (!Number.isFinite(l.num) || l.num % 5 == 0 || l.num >= 100) return
+		if (l.offset && l.offset.x) lastX += l.offset.x * 10
+		l.pnts.forEach(function(p,i) {
+			placeCities('', l, p, i)
 		})
 		axisMain += 20
 	})
+/**/
 	// Draw Interstate Lines
 	lines.forEach(function(l) {
 if (!Number.isFinite(l.num) || l.num % 10 % 5 || l.num >= 100) return
